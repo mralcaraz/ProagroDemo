@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PROAGROModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ESTADO">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="NOMBRE_ESTADO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CLAVE_ESTADO" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GEORREFERENCIAS">
+          <Key>
+            <PropertyRef Name="ID_GEORREFERENCIA" />
+          </Key>
+          <Property Name="ID_GEORREFERENCIA" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="LATITUD" Type="decimal" Precision="14" Scale="10" Nullable="false" />
+          <Property Name="LONGITUD" Type="decimal" Precision="14" Scale="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="ID_PERMISO" />
+          </Key>
+          <Property Name="ID_PERMISO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+          <Property Name="CONTRASENIA" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FECHA_NACIMIENTO" Type="date" Nullable="false" />
+          <Property Name="RFC" Type="char" MaxLength="13" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GEORREFERENCIA_ESTADO">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="1" />
+          <End Role="GEORREFERENCIAS" Type="Self.GEORREFERENCIAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="GEORREFERENCIAS">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESTADO">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_USUARIO">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PROAGROModelStoreContainer">
+          <EntitySet Name="ESTADO" EntityType="Self.ESTADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GEORREFERENCIAS" EntityType="Self.GEORREFERENCIAS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERMISOS" EntityType="Self.PERMISOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GEORREFERENCIA_ESTADO" Association="Self.FK_GEORREFERENCIA_ESTADO">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="GEORREFERENCIAS" EntitySet="GEORREFERENCIAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESTADO" Association="Self.FK_PERMISOS_ESTADO">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_USUARIO" Association="Self.FK_PERMISOS_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PROAGROModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ESTADO">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE_ESTADO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CLAVE_ESTADO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GEORREFERENCIAS">
+          <Key>
+            <PropertyRef Name="ID_GEORREFERENCIA" />
+          </Key>
+          <Property Name="ID_GEORREFERENCIA" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="LATITUD" Type="Decimal" Precision="14" Scale="10" Nullable="false" />
+          <Property Name="LONGITUD" Type="Decimal" Precision="14" Scale="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="ID_PERMISO" />
+          </Key>
+          <Property Name="ID_PERMISO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <Property Name="CONTRASENIA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_NACIMIENTO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RFC" Type="String" MaxLength="13" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_GEORREFERENCIA_ESTADO">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="1" />
+          <End Role="GEORREFERENCIAS" Type="Self.GEORREFERENCIAS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="GEORREFERENCIAS">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_ESTADO">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PERMISOS_USUARIO">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="PERMISOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProagroCStr" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ESTADO" EntityType="Self.ESTADO" />
+          <EntitySet Name="GEORREFERENCIAS" EntityType="Self.GEORREFERENCIAS" />
+          <EntitySet Name="PERMISOS" EntityType="Self.PERMISOS" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
+          <AssociationSet Name="FK_GEORREFERENCIA_ESTADO" Association="Self.FK_GEORREFERENCIA_ESTADO">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="GEORREFERENCIAS" EntitySet="GEORREFERENCIAS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_ESTADO" Association="Self.FK_PERMISOS_ESTADO">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PERMISOS_USUARIO" Association="Self.FK_PERMISOS_USUARIO">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PROAGROModelStoreContainer" CdmEntityContainer="ProagroCStr">
+          <EntitySetMapping Name="ESTADO">
+            <EntityTypeMapping TypeName="PROAGROModel.ESTADO">
+              <MappingFragment StoreEntitySet="ESTADO">
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="NOMBRE_ESTADO" ColumnName="NOMBRE_ESTADO" />
+                <ScalarProperty Name="CLAVE_ESTADO" ColumnName="CLAVE_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GEORREFERENCIAS">
+            <EntityTypeMapping TypeName="PROAGROModel.GEORREFERENCIAS">
+              <MappingFragment StoreEntitySet="GEORREFERENCIAS">
+                <ScalarProperty Name="ID_GEORREFERENCIA" ColumnName="ID_GEORREFERENCIA" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="LATITUD" ColumnName="LATITUD" />
+                <ScalarProperty Name="LONGITUD" ColumnName="LONGITUD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERMISOS">
+            <EntityTypeMapping TypeName="PROAGROModel.PERMISOS">
+              <MappingFragment StoreEntitySet="PERMISOS">
+                <ScalarProperty Name="ID_PERMISO" ColumnName="ID_PERMISO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIO">
+            <EntityTypeMapping TypeName="PROAGROModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="CONTRASENIA" ColumnName="CONTRASENIA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="FECHA_NACIMIENTO" ColumnName="FECHA_NACIMIENTO" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
